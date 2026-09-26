@@ -1,0 +1,30 @@
+.hangout-section { overflow: hidden; min-height: 80vh; display: flex; align-items: center; }
+.hangout-bg {
+  position: absolute; inset: 0;
+  background-image: url('/images/hangout-bg.jpg');
+  background-size: cover; background-position: center;
+  background-color: #100a00;
+}
+.hangout-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(8,5,0,0.92) 0%, rgba(8,5,0,0.7) 50%, rgba(8,5,0,0.3) 100%),
+    linear-gradient(to top, rgba(8,5,0,0.88) 0%, transparent 55%);
+}
+.hangout-inner { position: relative; z-index: 2; padding: 100px 0; }
+.hangout-content { max-width: 600px; }
+.hangout-h { line-height: 1; margin-bottom: 20px; }
+
+.hang-feats {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px;
+}
+.hang-feat {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(212,160,23,0.07); border: 1px solid var(--gold-border);
+  padding: 14px 18px; border-radius: var(--r-md);
+  font-family: var(--font-heading); font-size: 0.88rem; letter-spacing: 0.08em; color: var(--off-white);
+  transition: background 0.18s, border-color 0.2s;
+}
+.hang-feat:hover { background: rgba(212,160,23,0.14); border-color: var(--gold); }
+
+@media (max-width: 640px) { .hang-feats { grid-template-columns: 1fr; } }

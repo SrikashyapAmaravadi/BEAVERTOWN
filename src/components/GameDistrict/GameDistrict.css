@@ -1,0 +1,57 @@
+.gaming-section { background: var(--bg-alt); overflow: hidden; }
+.gaming-bg {
+  position: absolute; inset: 0;
+  background-image: url('/images/gaming-bg.jpg');
+  background-size: cover; background-position: center;
+  background-color: #050510;
+}
+.gaming-overlay {
+  position: absolute; inset: 0;
+  background: rgba(5,5,12,0.88);
+}
+.gaming-inner { position: relative; z-index: 2; }
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-bottom: 48px;
+}
+.game-card {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease), border-color 0.2s;
+}
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 44px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,160,23,0.45);
+  border-color: rgba(212,160,23,0.6);
+}
+.game-img {
+  height: 160px;
+  background-size: cover; background-position: center;
+  transition: transform 0.5s var(--ease);
+}
+.game-card:hover .game-img { transform: scale(1.05); }
+.game-body { padding: 16px 18px 20px; }
+.game-body h3 {
+  font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.06em;
+  color: var(--gold); margin-bottom: 5px;
+}
+.game-body p { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px; }
+.game-footer { display: flex; align-items: center; justify-content: space-between; }
+.game-price {
+  font-family: var(--font-display); font-size: 1.3rem; color: var(--gold);
+}
+
+.gaming-book { max-width: 720px; margin: 0 auto; }
+.gbp-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.gbp-form .bc-field { grid-column: span 1; }
+.gbp-form .bc-row { grid-column: span 2; }
+.gbp-form button { grid-column: span 2; }
+
+@media (max-width: 1100px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px)  { .games-grid { grid-template-columns: repeat(2, 1fr); } .gbp-form { grid-template-columns: 1fr; } .gbp-form .bc-row, .gbp-form button { grid-column: span 1; } }
+@media (max-width: 480px)  { .games-grid { grid-template-columns: 1fr; } }
