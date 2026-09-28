@@ -245,59 +245,196 @@
 .ft-legal a{font-size:.75rem;color:var(--text-subtle);transition:color .18s;}
 .ft-legal a:hover{color:var(--gold);}
 
-/* ════════════ RESPONSIVE BREAKPOINTS ════════════ */
+/* ════════════════════════════════════════════════
+   MOBILE-FIRST RESPONSIVE — COMPLETE OVERHAUL
+════════════════════════════════════════════════ */
 
-/* Small mobile (≤390px) */
-@media(max-width:390px){
+/* ── Hero fix: make it fully visible on ALL phones ── */
+.hero-sec{
+  position:relative;
+  min-height:100svh; /* svh = small viewport height, avoids mobile browser bar */
+  min-height:100vh;  /* fallback */
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.hero-body{
+  position:relative;z-index:2;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding: calc(62px + 28px) 20px 88px; /* header + breathing room + bar */
+  max-width:560px;
+  animation:heroIn .9s .1s both;
+}
+/* Tighter overlay on mobile so image shows through more */
+.hero-ov{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to right, rgba(4,2,0,.9) 0%, rgba(4,2,0,.7) 40%, rgba(4,2,0,.2) 70%, transparent 100%),
+    linear-gradient(to top,   rgba(4,2,0,.95) 0%, rgba(4,2,0,.35) 32%, transparent 60%);
+}
+
+/* ── Base (mobile-first) ── */
+.bottom-nav { display:flex; }
+main { padding-bottom:60px; }
+.hero-btns { flex-direction:column; gap:10px; }
+.hero-btns .btn-gold,
+.hero-btns .btn-ghost { width:100%; justify-content:center; padding:12px 18px; font-size:.82rem; }
+.hero-h1 { font-size:clamp(2.8rem,12vw,5rem); margin-bottom:12px; }
+.hero-welcome { font-size:1rem; margin-bottom:8px; }
+.hero-desc { font-size:.88rem; margin-bottom:20px; }
+.wrap { padding:0 14px; }
+.sec { padding:56px 0; }
+.sec-h { font-size:clamp(1.8rem,7vw,2.8rem); }
+.sec-sub { font-size:.88rem; margin-bottom:28px; }
+.order-ui { grid-template-columns:1fr; }
+
+/* Feature bar — compact on small screens */
+.hero-bar { height:56px; }
+.hb-item { flex-direction:column; gap:2px; padding:0 2px; }
+.hb-ico { font-size:.95rem; }
+.hb-lbl { font-size:.52rem; letter-spacing:.06em; }
+
+/* Grids — single column base */
+.exp-grid    { grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.stalls-grid { grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.games-grid  { grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+.celeb-grid  { grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.events-grid { grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.deals-grid  { grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.ft-grid     { grid-template-columns:1fr; gap:28px; padding:40px 14px 32px; }
+.cricket-inner { grid-template-columns:1fr; gap:28px; }
+.gbp-form    { grid-template-columns:1fr; }
+.gbp-form button { grid-column:span 1; }
+
+/* Card image heights — smaller on mobile */
+.exp-img   { height:110px; }
+.stall-img { height:110px; }
+.game-img  { height:110px; }
+.celeb-img { height:110px; }
+.ev-img    { height:120px; }
+.exp-body  { padding:12px 12px 14px; }
+.stall-body{ padding:12px 12px 14px; }
+.game-body { padding:10px 12px 14px; }
+.celeb-body{ padding:12px 12px 14px; }
+.ev-body   { padding:12px 12px 14px; }
+
+/* Booking card */
+.bk-card { padding:20px 16px; }
+.bk-title { font-size:1.2rem; margin-bottom:16px; }
+.bf-row   { grid-template-columns:1fr 1fr; gap:10px; }
+
+/* Ordering steps — wrap nicely */
+.order-steps { gap:6px; margin-bottom:24px; }
+.os-step     { padding:8px 10px; font-size:.62rem; }
+.os-arr      { display:none; } /* hide arrows between steps on very small screens */
+
+/* ── Very small phones (≤360px) ── */
+@media(max-width:360px){
   .exp-grid,.stalls-grid,.games-grid,.celeb-grid,.events-grid,.deals-grid{grid-template-columns:1fr;}
-  .hero-h1{font-size:clamp(3rem,14vw,4rem);}
-  .hb-lbl{font-size:.52rem;}
-  .gbp-form{grid-template-columns:1fr;}
-  .gbp-form button{grid-column:span 1;}
+  .hero-h1 { font-size:clamp(2.4rem,13vw,3.2rem); }
+  .hb-lbl  { font-size:.48rem; }
+  .hero-bar{ height:52px; }
 }
 
-/* Mobile (show bottom nav) */
-@media(max-width:768px){
-  .bottom-nav{display:flex;}
-  main{padding-bottom:60px;}
-  .hero-btns{flex-direction:column;}
-  .hero-btns .btn-gold,.hero-btns .btn-ghost{width:100%;justify-content:center;}
-  .order-ui{grid-template-columns:1fr;}
-  .wrap{padding:0 14px;}
+/* ── Small phones (361–480px) ── */
+@media(min-width:361px) and (max-width:480px){
+  .os-arr { display:flex; } /* show arrows again at 361+ */
 }
 
-/* Tablet (768–900px) */
+/* ── Landscape phone (short height) ── */
+@media(max-height:520px) and (orientation:landscape){
+  .hero-sec { min-height:auto; }
+  .hero-body{ padding: calc(62px + 16px) 20px 72px; }
+  .hero-h1  { font-size:clamp(2rem,8vw,3rem); margin-bottom:8px; }
+  .hero-welcome{ display:none; }
+  .hero-bar { height:48px; }
+  .hb-lbl   { font-size:.5rem; }
+}
+
+/* ── Tablet (≥480px) ── */
+@media(min-width:480px){
+  .os-arr { display:flex; }
+  .exp-img   { height:130px; }
+  .stall-img { height:130px; }
+  .game-img  { height:120px; }
+  .celeb-img { height:130px; }
+  .ev-img    { height:130px; }
+  .hero-bar { height:60px; }
+  .hb-lbl { font-size:.6rem; }
+  .hb-ico { font-size:1.05rem; }
+}
+
+/* ── Tablet (≥640px) ── */
+@media(min-width:640px){
+  .hero-body { padding: calc(62px + 40px) 28px 100px; }
+  .hero-h1   { font-size:clamp(3.5rem,8vw,5.5rem); }
+  .sec       { padding:72px 0; }
+  .exp-grid  { gap:14px; }
+  .stalls-grid{ gap:14px; grid-template-columns:repeat(3,1fr); }
+  .games-grid { gap:14px; }
+  .celeb-grid { gap:14px; }
+  .events-grid{ gap:14px; }
+  .deals-grid { gap:14px; }
+  .hero-bar   { height:64px; }
+  .hb-lbl     { font-size:.68rem; }
+  .hb-ico     { font-size:1.15rem; }
+}
+
+/* ── Tablet medium (≥768px) ── */
 @media(min-width:768px){
   .hero-panel{display:block;background:rgba(8,8,8,.72);border:1px solid rgba(212,160,23,.28);border-radius:12px;overflow:hidden;backdrop-filter:blur(10px);}
-  .exp-grid{grid-template-columns:repeat(3,1fr);}
-  .stalls-grid{grid-template-columns:repeat(3,1fr);}
-  .games-grid{grid-template-columns:repeat(3,1fr);}
-  .celeb-grid{grid-template-columns:repeat(3,1fr);}
-  .events-grid{grid-template-columns:repeat(2,1fr);}
-  .deals-grid{grid-template-columns:repeat(3,1fr);}
-  .ft-grid{grid-template-columns:1fr 1fr;}
-  .cricket-inner{grid-template-columns:1fr 380px;gap:48px;}
-  .order-ui{grid-template-columns:180px 1fr;}
+  .exp-grid    { grid-template-columns:repeat(3,1fr); }
+  .games-grid  { grid-template-columns:repeat(3,1fr); }
+  .celeb-grid  { grid-template-columns:repeat(3,1fr); }
+  .events-grid { grid-template-columns:repeat(2,1fr); }
+  .deals-grid  { grid-template-columns:repeat(3,1fr); }
+  .ft-grid     { grid-template-columns:1fr 1fr; }
+  .cricket-inner{ grid-template-columns:1fr 380px; gap:48px; }
+  .order-ui    { grid-template-columns:180px 1fr; }
+  .gbp-form    { grid-template-columns:1fr 1fr; }
+  .gbp-form button{ grid-column:span 2; }
+  .exp-img  { height:150px; }
+  .stall-img{ height:150px; }
+  .game-img { height:140px; }
+  .celeb-img{ height:150px; }
+  .ev-img   { height:150px; }
+  .sec      { padding:80px 0; }
 }
 
-/* Desktop (≥900px) */
+/* ── Desktop (≥900px) ── */
 @media(min-width:900px){
-  .th-inner{padding:0 40px;height:70px;}
-  .th-nav{display:flex;}
-  .th-book{display:inline-flex;}
-  .hamburger{display:none;}
-  .wrap{padding:0 40px;}
-  .exp-grid{grid-template-columns:repeat(5,1fr);}
-  .stalls-grid{grid-template-columns:repeat(3,1fr);}
-  .games-grid{grid-template-columns:repeat(5,1fr);}
-  .celeb-grid{grid-template-columns:repeat(5,1fr);}
-  .events-grid{grid-template-columns:repeat(4,1fr);}
-  .deals-grid{grid-template-columns:repeat(5,1fr);}
-  .ft-grid{grid-template-columns:1.6fr 1fr 1.2fr 1.4fr;padding:60px 40px 48px;}
-  .hero-body{padding:60px 40px 110px;}
-  .hb-lbl{font-size:.75rem;}
-  .hb-ico{font-size:1.3rem;}
+  .bottom-nav { display:none; }
+  main        { padding-bottom:0; }
+  .th-inner   { padding:0 40px; height:70px; }
+  .th-nav     { display:flex; }
+  .th-book    { display:inline-flex; }
+  .hamburger  { display:none; }
+  .wrap       { padding:0 40px; }
+  .exp-grid   { grid-template-columns:repeat(5,1fr); }
+  .stalls-grid{ grid-template-columns:repeat(3,1fr); }
+  .games-grid { grid-template-columns:repeat(5,1fr); }
+  .celeb-grid { grid-template-columns:repeat(5,1fr); }
+  .events-grid{ grid-template-columns:repeat(4,1fr); }
+  .deals-grid { grid-template-columns:repeat(5,1fr); }
+  .ft-grid    { grid-template-columns:1.6fr 1fr 1.2fr 1.4fr; padding:60px 40px 48px; }
+  .hero-body  { padding:calc(70px + 60px) 40px 110px; max-width:560px; }
+  .hb-lbl     { font-size:.78rem; letter-spacing:.12em; }
+  .hb-ico     { font-size:1.3rem; }
+  .hero-bar   { height:70px; }
+  .exp-img    { height:180px; }
+  .stall-img  { height:160px; }
+  .game-img   { height:150px; }
+  .celeb-img  { height:160px; }
+  .ev-img     { height:160px; }
+  .sec        { padding:100px 0; }
+  .sec-h      { font-size:clamp(2.4rem,4vw,3.6rem); }
+  .sec-sub    { font-size:1rem; margin-bottom:48px; }
+  .hero-h1    { font-size:clamp(4rem,8vw,7.5rem); margin-bottom:16px; }
+  .hero-welcome{ font-size:1.1rem; margin-bottom:10px; }
+  .hero-desc  { font-size:.95rem; margin-bottom:28px; }
 }
+
+
 
 /* ── User header ── */
 .th-user{display:flex;align-items:center;gap:8px;}

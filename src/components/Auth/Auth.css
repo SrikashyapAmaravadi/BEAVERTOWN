@@ -189,6 +189,12 @@
 
 /* ── Mobile ── */
 @media (max-width: 480px) {
-  .auth-card { padding: 28px 20px 22px; border-radius: 20px; }
-  .auth-title { font-size: 1.5rem; }
+  .auth-card { padding: 24px 16px 20px; border-radius: 18px; }
+  .auth-title { font-size: 1.4rem; }
+  .auth-brand { font-size: 1.35rem; }
+  .af-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+@media (max-width: 360px) {
+  .auth-card { padding: 20px 14px 18px; }
+  .auth-title { font-size: 1.25rem; }
 }
