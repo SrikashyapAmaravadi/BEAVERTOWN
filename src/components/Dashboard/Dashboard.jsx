@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { useAuth } from '../../context/AuthContext.jsx'
 import { IMG } from '../../imageUrls.js'
 import './Dashboard.css'
 
@@ -68,7 +67,7 @@ const Ico = {
 /* ════════════════════════════════════════════════
    DASHBOARD ROOT
 ════════════════════════════════════════════════ */
-export default function Dashboard({ onLogoClick, onSignIn, onLogout }) {
+export default function Dashboard({ onLogoClick }) {
   const [activeTab, setActiveTab] = useState('#hero')
   const { toasts, show: showToast } = useToast()
 
@@ -86,9 +85,9 @@ export default function Dashboard({ onLogoClick, onSignIn, onLogout }) {
 
   return (
     <div className="dashboard">
-      <TopHeader onLogoClick={onLogoClick} onSignIn={onSignIn} onLogout={onLogout} />
+      <TopHeader onLogoClick={onLogoClick} />
       <main>
-        <HeroSection onSignIn={onSignIn} />
+        <HeroSection />
         <ExperienceSection />
         <FoodSection />
         <OrderingSection />
@@ -98,7 +97,6 @@ export default function Dashboard({ onLogoClick, onSignIn, onLogout }) {
         <CelebSection />
         <EventsSection />
         <DealsSection />
-        <MyBookingsSection />
         <FooterSection />
       </main>
       <nav className="bottom-nav" aria-label="Navigation">
@@ -123,8 +121,7 @@ export default function Dashboard({ onLogoClick, onSignIn, onLogout }) {
 /* ────────────────────────────────────────────────
    TOP HEADER
 ──────────────────────────────────────────────── */
-function TopHeader({ onLogoClick, onSignIn, onLogout }) {
-  const { user } = useAuth()
+function TopHeader({ onLogoClick }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -162,19 +159,9 @@ function TopHeader({ onLogoClick, onSignIn, onLogout }) {
         </nav>
 
         <div className="th-right">
-          {user ? (
-            <div className="th-user">
-              <div className="th-avatar">{user.name?.[0] ?? '?'}</div>
-              <span className="th-uname">{user.name}</span>
-              <button className="th-logout-btn" onClick={onLogout} title="Logout">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              </button>
-            </div>
-          ) : (
-            <button className="btn-gold th-book" onClick={onSignIn}>
-              SIGN IN {Ico.arrow}
-            </button>
-          )}
+          <button className="btn-gold th-book" onClick={()=>scrollTo('#cricket')}>
+            {Ico.cal} BOOK NOW {Ico.arrow}
+          </button>
           <button className={`hamburger${open?' open':''}`} onClick={()=>setOpen(p=>!p)} aria-label="Menu">
             <span/><span/><span/>
           </button>
@@ -186,15 +173,9 @@ function TopHeader({ onLogoClick, onSignIn, onLogout }) {
           {navLinks.map(({l,h})=>(
             <a key={l} href={h} className="th-drawer-link" onClick={e=>{e.preventDefault();scrollTo(h);setOpen(false)}}>{l}</a>
           ))}
-          {user ? (
-            <button className="btn-ghost" style={{width:'100%',justifyContent:'center',marginTop:14}} onClick={()=>{onLogout();setOpen(false)}}>
-              LOGOUT
-            </button>
-          ) : (
-            <button className="btn-gold" style={{width:'100%',justifyContent:'center',marginTop:14}} onClick={()=>{onSignIn();setOpen(false)}}>
-              SIGN IN {Ico.arrow}
-            </button>
-          )}
+          <button className="btn-gold" style={{width:'100%',justifyContent:'center',marginTop:14}} onClick={()=>{scrollTo('#cricket');setOpen(false)}}>
+            {Ico.cal} BOOK YOUR EXPERIENCE {Ico.arrow}
+          </button>
         </div>
       )}
     </header>
@@ -204,8 +185,7 @@ function TopHeader({ onLogoClick, onSignIn, onLogout }) {
 /* ────────────────────────────────────────────────
    HERO
 ──────────────────────────────────────────────── */
-function HeroSection({ onSignIn }) {
-  const { user } = useAuth()
+function HeroSection() {
   const bg = useRef(null)
   useEffect(()=>{
     const fn = () => { if(bg.current) bg.current.style.transform=`translateY(${window.scrollY*.25}px)` }
@@ -228,15 +208,9 @@ function HeroSection({ onSignIn }) {
           <button className="btn-gold" onClick={()=>scrollTo('#experience')}>
             EXPLORE BEAVERTOWN {Ico.arrow}
           </button>
-          {user ? (
-            <button className="btn-ghost" onClick={()=>scrollTo('#cricket')}>
-              {Ico.cal} BOOK YOUR EXPERIENCE {Ico.arrow}
-            </button>
-          ) : (
-            <button className="btn-ghost" onClick={onSignIn}>
-              {Ico.cal} SIGN IN TO BOOK {Ico.arrow}
-            </button>
-          )}
+          <button className="btn-ghost" onClick={()=>scrollTo('#cricket')}>
+            {Ico.cal} BOOK YOUR EXPERIENCE {Ico.arrow}
+          </button>
         </div>
       </div>
 
@@ -409,21 +383,11 @@ function OrderingSection() {
 ──────────────────────────────────────────────── */
 function CricketSection({ showToast }) {
   const ref = useRef(null); useReveal(ref)
-  const { user } = useAuth()
   const [form,setForm]=useState({date:'',court:'Court A',time:'10:00 AM',players:'6',dur:'1 Hour'})
   const [done,setDone]=useState(false)
   const sub = e => {
     e.preventDefault()
     if (!form.date) { showToast('Please select a date','error'); return }
-    saveBooking({
-      type:'cricket',
-      title:`Box Cricket — ${form.court}`,
-      date:form.date, time:form.time,
-      players:`${form.players} players`,
-      duration:form.dur,
-      status:'pending',
-      bookedAt: new Date().toISOString(),
-    })
     setDone(true)
     showToast('Cricket slot booked! We will confirm shortly.')
     setTimeout(()=>setDone(false),3000)
@@ -501,15 +465,6 @@ function GamingSection({ showToast }) {
   const sub = e => {
     e.preventDefault()
     if (!form.date) { showToast('Please select a date','error'); return }
-    saveBooking({
-      type:'gaming',
-      title:`${form.game} Gaming Session`,
-      date:form.date, time:form.time,
-      players:`${form.players} player${form.players>1?'s':''}`,
-      duration:form.dur,
-      status:'pending',
-      bookedAt: new Date().toISOString(),
-    })
     setDone(true)
     showToast('Gaming session booked! See you there.')
     setTimeout(()=>setDone(false),3000)
